@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<Description>Marten extensions for ASP.NET Core</Description>
+	<Authors>Joona-Pekka Kokko</Authors>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<Company />
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Marten.AspNetCore</AssemblyName>
+    <RootNamespace>Marten.AspNetCore</RootNamespace>
+	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	<PackageId>Marten.AspNetCore</PackageId>
+    <PackageTags>marten;aspnetcore</PackageTags>    
+    <PackageProjectUrl>https://github.com/jokokko/marten.aspnetcore</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/jokokko/marten.aspnetcore/master/LICENSE</PackageLicenseUrl>		   
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Marten" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+  </ItemGroup>
+
+</Project>
