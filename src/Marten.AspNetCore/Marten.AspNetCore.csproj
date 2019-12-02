@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	<Description>Marten extensions for ASP.NET Core</Description>
@@ -12,7 +12,8 @@
 	<PackageId>Marten.AspNetCore</PackageId>
     <PackageTags>marten;aspnetcore</PackageTags>    
     <PackageProjectUrl>https://github.com/jokokko/marten.aspnetcore</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/jokokko/marten.aspnetcore/master/LICENSE</PackageLicenseUrl>		   
+    <PackageLicenseUrl>https://raw.githubusercontent.com/jokokko/marten.aspnetcore/master/LICENSE</PackageLicenseUrl>
+    <PackageVersion>1.0.1</PackageVersion>		   
   </PropertyGroup>
 
   <PropertyGroup>
