@@ -8,7 +8,7 @@ namespace Marten.AspNetCore.Tests
 	public sealed class MartenAspNetCoreExtensionsTests
 	{
 		[Fact]
-		public void CannotWireuMartenWithoutStoreConfig()
+		public void CannotWireUpMartenWithoutStoreConfig()
 		{
 			IServiceCollection serviceCollection = new ServiceCollection();
 
