@@ -4,6 +4,8 @@
 **Packages** [Marten.AspNetCore](https://www.nuget.org/packages/Marten.AspNetCore), [Marten.AspNetCore.Mvc](https://www.nuget.org/packages/Marten.AspNetCore.Mvc) | **Platforms** .NET Standard 2.0
 
 ### Example Usage
+
+#### Basic Bootstrap
 ```csharp
 // Bootstrap
 public void ConfigureServices(IServiceCollection services)
@@ -47,8 +49,36 @@ public class DummyDocumentSessionController : ControllerBase
     {
         var o = new Dummy { Value = value };
         // Changes are automatically saved after the request has been processed
-        session.Insert(o);			
+        session.Insert(o);
     }
+}
+```
+
+#### Using `IServiceProvider` in the store configuration
+
+Some of your Document Store configuration might rely on injected services. Therefore you might need to have access to the service provider instance.
+Following example shows how to achieve this.
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddSingleton<IImortantService, ImportantService>();
+    services
+        // Registers IDocumentStore for DI (scoped to Singleton as per Marten best practices)
+        .UseMarten((serviceProvider, options) =>
+            {
+                var importantServiceInstance = serviceProvider.GetService<IImortantService>();
+                options.Connection("connection string");
+                options.Events.InlineProjections.Add(new ImportantProjection(importantServiceInstance));
+            })
+        // Registers IDocumentSession, IQuerySession, IEventStore for DI (default scope Scoped)
+        .UseSessions();
+
+    services.AddMvc()
+        // Automatically save IDocumentSession changes on request processing
+        .WithMartenSessionsSaved(saveOnHttpMethods: new [] { "POST", "PATCH" });
+        // Or for IDocumentSession.SaveChangesAsync
+        // .WithMartenSessionsSavedAsync(saveOnHttpMethods: new [] { "POST", "PATCH" }			
 }
 ```
 

@@ -8,7 +8,7 @@ namespace Marten.AspNetCore.Tests
 	public sealed class MartenAspNetCoreExtensionsTests
 	{
 		[Fact]
-		public void CannotWireuMartenWithoutStoreConfig()
+		public void CannotWireUpMartenWithoutStoreConfig()
 		{
 			IServiceCollection serviceCollection = new ServiceCollection();
 
@@ -53,7 +53,32 @@ namespace Marten.AspNetCore.Tests
 			Assert.True(initialized);
 		}
 
+		[Fact]
+		public void StoreConfigurationHasAccessToServiceProvider()
+		{
+			IServiceCollection serviceCollection = new ServiceCollection();
 
+			var initialized = false;
+			IServiceProvider serviceProvider = null;
+
+			serviceCollection.UseMarten((sp, c) =>
+			{
+				
+				initialized = true;
+				serviceProvider = sp;
+				c.Connection((string)null);
+			});
+
+			var provider = serviceCollection.BuildServiceProvider();
+
+			Assert.False(initialized);
+
+			provider.GetService(typeof(IDocumentStore));
+
+			Assert.True(initialized);
+			Assert.NotNull(serviceProvider);
+		}
+		
 		[Fact]
 		public void StoreWiredAsSingletonByDefault()
 		{
@@ -71,7 +96,7 @@ namespace Marten.AspNetCore.Tests
 
 
 		[Fact]
-		public void CanWireupDocumentSessions()
+		public void CanWireUpDocumentSessions()
 		{
 			IServiceCollection serviceCollection = new ServiceCollection();
 			
@@ -143,7 +168,7 @@ namespace Marten.AspNetCore.Tests
 		}
 
 		[Fact]
-		public void CanWireupQuerySession()
+		public void CanWireUpQuerySession()
 		{
 			IServiceCollection serviceCollection = new ServiceCollection();
 			
@@ -164,7 +189,7 @@ namespace Marten.AspNetCore.Tests
 		}
 
 		[Fact]
-		public void CanWireupEventStore()
+		public void CanWireUpEventStore()
 		{
 			IServiceCollection serviceCollection = new ServiceCollection();
 			

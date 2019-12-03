@@ -48,5 +48,28 @@ namespace Marten
 
 			return new MartenAspNetCoreConfigurationExpressions(serviceCollection);
 		}
+		
+		/// <summary>
+		/// Registers Marten IDocumentStore in the <see cref="IServiceCollection" />.
+		/// </summary>
+		/// <remarks>The IDocumentStore is wired as singleton, pertaining to Marten best practices.</remarks>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection" /> to add services to.</param>
+		/// <param name="configureStore">Store configuration to be applied to Marten.</param>
+		/// <returns></returns>
+		public static IMartenAspNetCoreConfigurationExpressions UseMarten(this IServiceCollection serviceCollection,
+			[NotNull] Action<IServiceProvider, StoreOptions> configureStore)
+		{
+			if (configureStore == null)
+			{
+				throw new ArgumentNullException(nameof(configureStore));
+			}
+
+			serviceCollection.TryAdd(new ServiceDescriptor(
+				typeof(IDocumentStore),
+				serviceProvider => DocumentStore.For((options) => configureStore(serviceProvider, options)), 
+				ServiceLifetime.Singleton));
+
+			return new MartenAspNetCoreConfigurationExpressions(serviceCollection);
+		}
 	}
 }
